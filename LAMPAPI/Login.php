@@ -1,11 +1,14 @@
 <?php
+    // getRequestInfo function - takes input (possibly from client side) and read into string and convert to php var
     $inData = getRequestInfo();
 
+    // Info for establishing connection
     $servername = "localhost";
     $username = "admin1";
     $password = "admin12345"; 
     $dbname = "group_19A";
 
+    // Login credentials
     $id = 0;
     $firstName = "";
     $lastName = "";
