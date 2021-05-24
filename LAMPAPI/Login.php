@@ -65,7 +65,7 @@
     // if returnWithError is called, error return value string will be used
     function returnWithError($err)
     {
-        $retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '")';
+        $retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
         sendResultInfoAsJson($retValue);
     }
 
