@@ -33,7 +33,8 @@
         $stmt->execute();
         //msqli_stmt->get_result gets a result set from a prepared statement
         $result = $stmt->get_result();
-
+        
+        // fetch_assoc - fetches a result row as an associative array
         if($row = $result->fetch_assoc() )
         {
             returnWithInfo($row['FirstName'], $row['LastName'], $row['ID']);
