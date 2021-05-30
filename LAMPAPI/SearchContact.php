@@ -23,8 +23,9 @@
     else
     {
         // Prepare a SQL statement of selecting first and last name from contacts
-        $stmt = $conn->prepare("SELECT * FROM Contacts where FirstName LIKE ? AND UserID=?");
         $searchInput = "%" . $inData["search"] . "%";
+        $stmt = $conn->prepare("SELECT FirstName,LastName FROM Contacts WHERE (FirstName LIKE ? OR LastName LIKE ?) 
+                                AND UserID=?");
         $stmt->bind_param("ss", $searchInput,$inData["UserID"]);
         $stmt->execute();
 
@@ -37,7 +38,7 @@
                 $searchResult .= ",";
             }
             $searchCount++;
-            $searchResult .= '"' . $row["FirstName"] . '"' ' ' '"' . $row["LastName"] '"';
+            $searchResult .= $row['FirstName'], $row['LastName'];
         }
 
         if ($searchCount == 0)
