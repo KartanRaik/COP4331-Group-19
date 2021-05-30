@@ -24,9 +24,8 @@
     {
         // Prepare a SQL statement of selecting first and last name from contacts
         $searchInput = "%" . $inData["search"] . "%";
-        $stmt = $conn->prepare("SELECT FirstName,LastName FROM Contacts WHERE (FirstName LIKE ? OR LastName LIKE ?) 
-                                AND UserID=?");
-        $stmt->bind_param("ss", $searchInput,$inData["UserID"]);
+        $stmt = $conn->prepare("SELECT FirstName, LastName FROM Contacts WHERE FirstName LIKE ? AND UserID=?");
+        $stmt->bind_param("si",$searchInput ,$inData["userId"]);
         $stmt->execute();
 
         $result = $stmt->get_result(); 
@@ -38,7 +37,7 @@
                 $searchResult .= ",";
             }
             $searchCount++;
-            $searchResult .= $row['FirstName'], $row['LastName'];
+            $searchResult .= $row['FirstName'] . " " . $row['LastName'];
         }
 
         if ($searchCount == 0)
@@ -55,26 +54,26 @@
     }
 
     function getRequestInfo()
-	{
-		return json_decode(file_get_contents('php://input'), true);
-	}
+    {
+	return json_decode(file_get_contents('php://input'), true);
+    }
 
     function sendResultInfoAsJson( $obj )
-	{
-		header('Content-type: application/json');
-		echo $obj;
-	}
+    {
+	header('Content-type: application/json');
+	echo $obj;
+    }
 	
-	function returnWithError( $err )
-	{
-		$retValue = '{"firstName":"","lastName":"","error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
-	}
+    function returnWithError( $err )
+    {
+	$retValue = '{"firstName":"","lastName":"","error":"' . $err . '"}';
+	sendResultInfoAsJson( $retValue );
+    }
 	
-	function returnWithInfo( $searchResults )
-	{
-		$retValue = '{"results":[' . $searchResults . '],"error":""}';
-		sendResultInfoAsJson( $retValue );
-	}
+    function returnWithInfo( $searchResults )
+    {
+	$retValue = '{"results":"[' . $searchResults . ']","error":""}';
+	sendResultInfoAsJson( $retValue );
+    }
 
 ?>
