@@ -52,7 +52,7 @@
 
         if ($searchCount == 0)
         {
-            returnWithError("No Contacts Found");
+            returnWithError("You have no contacts. Please add.");
         }
         else
         {
