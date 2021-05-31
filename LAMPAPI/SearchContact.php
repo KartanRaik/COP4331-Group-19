@@ -10,11 +10,11 @@
 
     // Variables required for search
     // searchResult - concatenate existing/or nonexisent result and output to user
-    $Name = "Name";
-    $Num = "No.";
-    $Phone = "Phone";
-    $Email = "Email"; 
-    $searchResult = sprintf("%s %-24s %-24s %-24s, ",$Num ,$Name ,$Phone ,$Email);
+    $Name = "";
+    $Phone = "";
+    $Email = "";
+
+    $myarray = ""; 
 
     // depicts if there are results found
     $searchCount = 0;
@@ -37,19 +37,15 @@
 
         while ($row = $result->fetch_assoc())
         {
-            if($searchCount > 0)
-            {
-                $searchResult .= ", ";
-            }
             $searchCount++;
 
 	    $Name = $row['FirstName'] . " " . $row['LastName'];
 	    $Phone = $row['PhoneNumber'];
 	    $Email = $row['Email'];
+
+	    $myarray .= $Name . "," . $Phone . "," . $Email . "," ;
 	    
-	    
-            $searchResult .= sprintf("%d %-24s %-24s %-24s",$searchCount ,$Name ,$Phone ,$Email);
-        }
+	}
 
         if ($searchCount == 0)
         {
@@ -57,7 +53,7 @@
         }
         else
         {
-            returnWithInfo($searchResult);
+            returnWithInfo($myarray, $searchCount);
         }
 
         $stmt->close();
@@ -81,9 +77,9 @@
 	sendResultInfoAsJson( $retValue );
     }
 	
-    function returnWithInfo( $searchResults )
+    function returnWithInfo( $array, $number )
     {
-	$retValue = '{"results":"' . $searchResults . '","error":""}';
+	$retValue = '{"results":"' . $array . '", "TotalContacts":' . $number . ', "error":""}';
 	sendResultInfoAsJson( $retValue );
     }
 
