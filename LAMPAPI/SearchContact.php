@@ -9,8 +9,13 @@
     $dbname = "group_19A";
 
     // Variables required for search
-    // searchResult - concatenate existing/or nonexisent result and output to user 
-    $searchResult = "";
+    // searchResult - concatenate existing/or nonexisent result and output to user
+    $Name = "Name";
+    $Num = "No.";
+    $Phone = "Phone";
+    $Email = "Email"; 
+    $searchResult = sprintf("%s %-24s %-24s %-24s, ",$Num ,$Name ,$Phone ,$Email);
+
     // depicts if there are results found
     $searchCount = 0;
 
@@ -24,8 +29,8 @@
     {
         // Prepare a SQL statement of selecting first and last name from contacts
         $searchInput = "%" . $inData["search"] . "%";
-        $stmt = $conn->prepare("SELECT FirstName, LastName FROM Contacts WHERE FirstName LIKE ? AND UserID=?");
-        $stmt->bind_param("si",$searchInput ,$inData["userId"]);
+        $stmt = $conn->prepare("SELECT FirstName, LastName, PhoneNumber, Email FROM Contacts WHERE FirstName LIKE ? AND UserID=? OR LastName LIKE ? AND UserID=?");
+        $stmt->bind_param("sisi",$searchInput ,$inData["userId"] ,$searchInput ,$inData["userId"]);
         $stmt->execute();
 
         $result = $stmt->get_result(); 
@@ -34,10 +39,16 @@
         {
             if($searchCount > 0)
             {
-                $searchResult .= ",";
+                $searchResult .= ", ";
             }
             $searchCount++;
-            $searchResult .= $row['FirstName'] . " " . $row['LastName'];
+
+	    $Name = $row['FirstName'] . " " . $row['LastName'];
+	    $Phone = $row['PhoneNumber'];
+	    $Email = $row['Email'];
+	    
+	    
+            $searchResult .= sprintf("%d %-24s %-24s %-24s",$searchCount ,$Name ,$Phone ,$Email);
         }
 
         if ($searchCount == 0)
@@ -66,13 +77,13 @@
 	
     function returnWithError( $err )
     {
-	$retValue = '{"firstName":"","lastName":"","error":"' . $err . '"}';
+	$retValue = '{"results":"","error":"' . $err . '"}';
 	sendResultInfoAsJson( $retValue );
     }
 	
     function returnWithInfo( $searchResults )
     {
-	$retValue = '{"results":"[' . $searchResults . ']","error":""}';
+	$retValue = '{"results":"' . $searchResults . '","error":""}';
 	sendResultInfoAsJson( $retValue );
     }
 
