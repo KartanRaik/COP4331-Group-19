@@ -14,7 +14,7 @@
     $Num = "No.";
     $Phone = "Phone";
     $Email = "Email"; 
-    $searchResult = sprintf("%s %-24s %-24s %-24s, ",$Num ,$Name ,$Phone ,$Email);
+    $myarray = ""; 
 
     // depicts if there are results found
     $searchCount = 0;
@@ -36,19 +36,12 @@
 
         while ($row = $result->fetch_assoc())
         {
-            if($searchCount > 0)
-            {
-                $searchResult .= ", ";
-            }
             $searchCount++;
-
-	    $Name = $row['FirstName'] . " " . $row['LastName'];
-	    $Phone = $row['PhoneNumber'];
-	    $Email = $row['Email'];
-	    
-	    
-        $searchResult .= sprintf("%d %-24s %-24s %-24s",$searchCount ,$Name ,$Phone ,$Email);
-        }
+            $Name = $row['FirstName'] . " " . $row['LastName'];
+            $Phone = $row['PhoneNumber'];
+            $Email = $row['Email'];
+            $myarray .= $Name . "," . $Phone . "," . $Email . "," ;
+	    }
 
         if ($searchCount == 0)
         {
@@ -56,7 +49,7 @@
         }
         else
         {
-            returnWithInfo($searchResult);
+            returnWithInfo($myarray, $searchCount);
         }
 
         $stmt->close();
@@ -65,25 +58,25 @@
 
     function getRequestInfo()
     {
-	return json_decode(file_get_contents('php://input'), true);
+	    return json_decode(file_get_contents('php://input'), true);
     }
 
     function sendResultInfoAsJson( $obj )
     {
-	header('Content-type: application/json');
-	echo $obj;
+        header('Content-type: application/json');
+        echo $obj;
     }
 	
     function returnWithError( $err )
     {
-	$retValue = '{"results":"","error":"' . $err . '"}';
-	sendResultInfoAsJson( $retValue );
+        $retValue = '{"results":"","error":"' . $err . '"}';
+        sendResultInfoAsJson( $retValue );
     }
 	
-    function returnWithInfo( $searchResults )
+    function returnWithInfo( $array, $number )
     {
-	$retValue = '{"results":"' . $searchResults . '","error":""}';
-	sendResultInfoAsJson( $retValue );
+        $retValue = '{"results":"' . $array . '", "TotalContacts":' . $number . ', "error":""}';
+        sendResultInfoAsJson( $retValue );
     }
 
 ?>
