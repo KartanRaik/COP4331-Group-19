@@ -22,13 +22,13 @@
     }
     else
     {
-        // Insert into Contacts
+        // Insert into Users
         $stmt = $conn->prepare("INSERT into Users (FirstName,LastName, Login, Password) VALUES(?,?,?,?)");
         $stmt->bind_param("ssss",$firstName,$lastName,$login,$Password);
         $stmt->execute();
         $stmt->close();
         $conn->close();
-        // Why do we use this line?
+
         returnWithError("");
     }
 
