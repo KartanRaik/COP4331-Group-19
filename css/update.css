@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
+:root {
+  --primary-color: #23A7CF;
+}
+
+body {
+  background-color: var(--primary-color);
+  margin: 0;
+  font-family: 'Lato';
+}
+
+.update-section {
+  background-color: white;
+  height: 20em;
+  width: 45em;
+  padding: 10em 6em;
+  margin: auto;
+  margin-top: 8em;
+  border-radius: 100em 1em;
+  -webkit-animation: fadeIn 1s;
+          animation: fadeIn 1s;
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+h1 {
+  font-size: 3em;
+  text-align: center;
+  margin-top: -30px;
+  margin-right: -140px;
+}
+
+label {
+  text-align: center;
+  display: block;
+  margin-top: 2em;
+}
+
+#updateFirstName, #updateLastName, #updateEmail, #updatePhoneNumber {
+  display: block;
+  margin: 0 auto;
+}
+
+.update-button {
+  background-color: black;
+  color: white;
+  display: block;
+  margin: auto;
+  margin-top: 2em;
+  text-decoration: none;
+  padding: .6em 5em;
+  font-size: 1em;
+  border-radius: 10em;
+}
+
+p {
+  text-align: center;
+  font-size: 1em;
+}
+
+a {
+  color: #23A7CF;
+}

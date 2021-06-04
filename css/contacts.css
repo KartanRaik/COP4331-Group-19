@@ -1,0 +1,129 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
+:root {
+  --primary-color: #23A7CF;
+}
+
+body {
+  background-color: var(--primary-color);
+  margin: 0;
+  font-family: 'Lato';
+}
+
+.relative {
+    padding: 10px;
+    position: relative;
+    background-color: #fff;
+    margin: 10px;
+}
+        
+.navitem {
+   display: inline-block;
+   width: 70px;
+   height: 30px;
+   text-align: center;
+   border: gray;
+   background-color: #E8562A;
+   color: #fff;
+   cursor: pointer;
+   font-weight: bold;
+}
+
+.login-section {
+  background-color: white;
+  height: -5em;
+  width: 3em;
+  padding: 10em 6em;
+  margin-top: -10em;
+  margin-left: 100em;
+  border-radius: 100em 1em;
+  -webkit-animation: fadeIn 1s;
+          animation: fadeIn 1s;
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+h1 {
+   font-size: 1em;
+   text-align: left;
+   margin-top:-30px;
+   margin-right: 0px;
+}
+h2 {
+  font-size: 3em;
+  text-align: center;
+  margin-top: 1em;
+}
+
+table {
+  border-collapse: collapse;
+  background-color: white;
+  width: 50%;
+  border: 3px solid black;
+  margin-left: 30em;
+  margin-top: -20em;
+
+}
+
+label {
+  text-align: center;
+  display: block;
+  margin-top: 2em;
+}
+.button{
+   background-color: red; 
+   border: 3px solid black;
+   color: white;
+   padding: 15px 35px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   cursor: pointer;
+   margin-left: 3em;
+}
+.logoutButton{
+   background-color: red; 
+   border: 3px solid black;
+   color: white;
+   padding: 15px 35px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   cursor: pointer;
+   margin-left: 110em;
+   margin-top: -31em;
+}
+
+.button:hover {
+   background-color: #A30214;
+}
+.logoutButton:hover {
+   background-color: #A30214;
+}
+
+
+p {
+  text-align: center;
+  font-size: 1em;
+}
+
+a {
+  color: #23A7CF;
+}
+
