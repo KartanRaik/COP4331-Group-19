@@ -1,1 +1,1 @@
-# COP4331 YourConnection By Group 19
+# COP4331 YourConnection By Group 19 (Personal Contact Manager)
