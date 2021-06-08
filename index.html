@@ -1,0 +1,36 @@
+<html>
+<head>
+	<!-- Title of webpage -->
+	<title>Home Page | YourConnections </title>
+
+	<!-- link javascript -->
+	<!script type="text/javascript" src="js/md5.js"></script>
+	<script type="text/javascript" src="js/code.js"></script>
+	
+	<!-- link css -->
+        <link href="css/index.css" rel="stylesheet">	
+
+</head>
+<body>
+	<section class="login-section">
+		<div class="login">
+			<h2>YourConnections</h2>
+
+		<!---Login info--->
+		<div class="form-group">
+			<label for="loginName">Username: </label>
+			<input type="text" class="form-control" id="loginName" aria-describedby="userHelp" placeholder="">
+
+			<label for="loginPassword">Password: </label>
+			<input type="password" class="form-control" id="loginPassword" placeholder="">
+			<small id="userHelp" class="form-text text-muted"<We will never share your login information with anyone else.</small>
+			
+			<button type="button" id="login" class="login-button" onclick="doLogin();"> Sign in </button>
+			<p> We will never share your login information with anyone else.</p>
+
+			<div id="loginResult"></div>
+
+			<p><a href="register.html"> No login? Register here!</a></p>
+					
+</body>
+</html>
