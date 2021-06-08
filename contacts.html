@@ -1,0 +1,59 @@
+<html>
+<head>
+	<title>Contacts | Personal Contact Manager </title>
+
+	<script type="text/javascript" src="js/code.js"></script>
+
+        <link href="css/contacts.css" rel="stylesheet">	
+
+	<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function() 
+	{
+		readCookie();
+	}, false);
+	</script>
+
+<style>
+
+table, th, td {
+  text-align: left;
+  padding: 10px;
+  border: 3px solid black;
+  border-collapse: collapse;
+}
+</style>
+
+</head>
+<body>
+
+<h1> <p type="text" id="userName" placeholder="Username"><br /> </h1>
+	
+	
+<div class="relative">
+	<h2 id="title" style="color:black;">Contacts | YourConnections</h2>
+	<p><p><!---- idk what I did here or why its happening but the buttons aligned perfectly in the middle lmao --->
+	<button class="navitem" onclick="readContact();">Read</button>
+	
+	<button class="navitem" onclick="searchContact();">Search</button>
+	<input class="navitem" type="text" id="searchInput" placeholder="Search"/>
+
+	<button class="navitem" onclick="goAdd();">Add</button>
+	
+	<!----<p1><a href="add.html" > Add</a></p1>--->
+	<button class="navitem" onclick="doLogout();" style="background-color:red">Logout</button></br>
+	<p type="text" id="Status" style="color:red;"></p>
+
+
+</div>
+<table id="myTable">
+	<tr>
+		<th>No.</th>
+		<th>Name</th>
+		<th>PhoneNumber</th>
+		<th>Email</th>
+		<th>DeleteButtons</th>
+		<th>EditButtons</th>
+	</tr>
+</table>
+</body>
+</html>

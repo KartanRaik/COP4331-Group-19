@@ -1,0 +1,38 @@
+<html>
+<head>
+	<title> Add | YourConnections </title>
+
+
+	<script type="text/javascript" src="js/code.js"></script>
+        <link href="css/add.css" rel="stylesheet">	
+	
+	<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function() 
+	{
+		readCookie();
+	}, false);
+	</script>
+
+
+</head>
+<body>
+	<section class="add-section">
+		<h1>Add in your information</h1>
+		<div class="form-group">
+			<label for="addFirstName">First Name: </label>
+			<input type="text" class="form-control" id="addFirstName" placeholder="">
+
+			<label for="addLastName">Last Name: </label>
+			<input type="text" class="form-control" id="addLastName" placeholder="">
+
+			<label for="addEmail">Email: </label>
+			<input type="text" class="form-control" id="addEmail" placeholder="">
+
+			<label for="addPhoneNumber">Phone Number: </label>
+			<input type="text" class="form-control" id="addPhoneNumber" placeholder="">
+
+			<button type="button" id="addButton" class="add-button" onclick="addContact();"> Add </button>
+			<p type="text" id="Status" style="color:red;"></p>
+
+</body>
+</html>

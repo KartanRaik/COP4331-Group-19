@@ -1,0 +1,41 @@
+<html>
+<head>
+	<title> Update | YourConnections </title>
+
+
+	<script type="text/javascript" src="js/code.js"></script>
+        <link href="css/update.css" rel="stylesheet">
+	<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function() 
+	{
+		readConCookie();
+	}, false);
+	</script>
+
+		
+</head>
+<body>
+	<h1> <p type="text" id="userName" placeholder="Username" /><br /> </h1>
+
+	<section class="update-section">
+		<h1>Update your information</h1>
+		<div class="form-group">
+			<label>Enter informating you want to change (leave others empty to keep that information)</label>
+			<p type="text" style="color:green;" id="contactInfo"></p>
+			<p type="text" id="Status" style="color:red;"></p>
+			<label id="fn" for="updateFirstName">First Name: </label>
+			<input type="text" class="form-control" id="updateFirstName" placeholder="">
+
+			<label id="ln" for="updateLastName">Last Name: </label>
+			<input type="text" class="form-control" id="updateLastName" placeholder="">
+
+			<label id="e" for="updateEmail">Email: </label>
+			<input type="text" class="form-control" id="updateEmail" placeholder="">
+
+			<label id="pn" for="updatePhoneNumber">Phone Number: </label>
+			<input type="text" class="form-control" id="updatePhoneNumber" placeholder="">
+
+			<button type="button" id="updateButton" class="update-button" onclick="doUpdate();"> Update </button>
+			
+</body>
+</html>
