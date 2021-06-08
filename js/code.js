@@ -2,6 +2,10 @@ var urlBase = 'http://csmajorproject.xyz/LAMPAPI';
 var extension = 'php';
 
 var userId = 0;
+var conId = 0;
+var conName ="";
+var conPhone ="";
+var conEmail ="";
 var firstName = "";
 var lastName = "";
 
@@ -30,14 +34,12 @@ function doLogin()
 	try
 	{
 		xhr.onreadystatechange = function() 
-		{	//document.getElementById("loginResult").innerHTML = "Logging In..." + this.readyState + " " + this.status;		
+		{			
 			if (this.readyState == 4 && this.status == 200) 
 			{				
 				//This is where the result of LoginAPI comes back to
 				var jsonObject = JSON.parse( xhr.responseText );
 				userId = jsonObject.id;
-
-				
 
 				if( userId < 1 )
 				{		
@@ -70,7 +72,7 @@ function saveCookie()
 	var minutes = 20;
 	var date = new Date();
 	date.setTime(date.getTime()+(minutes*60*1000));	
-	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
+	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ",conId=" + conId + ",conName=" + conName + ",conPhone=" + conPhone + ",conEmail=" + conEmail +";expires=" + date.toGMTString();
 }
 
 function readCookie()
@@ -106,6 +108,49 @@ function readCookie()
 	}
 }
 
+function readConCookie()
+{
+	//conId = -1;
+	var data = document.cookie;
+	var splits = data.split(",");
+	for(var i = 0; i < splits.length; i++) 
+	{
+		var thisOne = splits[i].trim();
+		var tokens = thisOne.split("=");
+		if(tokens[0] == "conId")
+		{
+			conId = parseInt( tokens[1].trim() );
+		}
+		else if( tokens[0] == "conName" )
+		{
+			conName = tokens[1];
+		}
+		else if( tokens[0] == "conPhone" )
+		{
+			conPhone = tokens[1];
+		}else if( tokens[0] == "conEmail" )
+		{
+			conEmail = tokens[1];
+		}
+
+	}
+	var n = conName.split(" ");
+		
+	if(conId < 0)
+	{
+		document.getElementById("contactInfo").innerHTML = "Error transfering data go Back " + conId + conName + " " + conPhone + " " + conEmail;
+	}
+	else
+	{
+		document.getElementById("contactInfo").innerHTML = "Current Info: " + conId + conName + " " + conPhone + " " + conEmail;
+		
+		document.getElementById("fn").title = n[0];
+		document.getElementById("ln").title = n[1];
+		document.getElementById("pn").title = conPhone;
+		document.getElementById("e").title = conEmail;
+	}
+
+}
 
 function doLogout()
 {
@@ -122,7 +167,7 @@ function searchContact()
 	var searchInput = document.getElementById("searchInput").value;
 	
 	//Status of search
-	document.getElementById("searchStatus").innerHTML = "Looking for the Contact....";
+	document.getElementById("Status").innerHTML = "Looking for the Contact....";
 
 	//making a jsonpayload
 	var jsonPayload = '{"search" : "' + searchInput + '", "userId" : ' + userId + '}';
@@ -135,29 +180,28 @@ function searchContact()
 	try
 	{
 		xhr.onreadystatechange = function() 
-		{	document.getElementById("searchStatus").innerHTML = "Error Check" + this.readyState + " " + this.status;		
+		{			
 			if (this.readyState == 4 && this.status == 200) 
 			{				
 				//This is where the result of LoginAPI comes back to
 				var jsonObject = JSON.parse( xhr.responseText );
-				document.getElementById("searchStatus").innerHTML = "Check";
+				
 				var data = jsonObject.results;
- 				var TotalContacts = jsonObject.TotalContacts;
-
+				var TotalContacts = jsonObject.TotalContacts;
 				var Table = document.getElementById("myTable");
+				
 				//start a new table
 				Table.remove();
-
-				document.getElementById("searchStatus").innerHTML = "Contacts Found!!!";
+				document.getElementById("Status").innerHTML = "Contacts Found!!!";
 				
 				//Table Making
 				var i = 0;
 				var r = 1;
 				var j = 0;
 				var newTable = document.createElement("TABLE");
-  				newTable.setAttribute("id", "myTable");
-  				document.body.appendChild(newTable);
-								
+				newTable.setAttribute("id", "myTable");
+				document.body.appendChild(newTable);
+				
 				//Header
 				var row = newTable.insertRow(0);
 				var No = row.insertCell(0);
@@ -174,9 +218,8 @@ function searchContact()
 				Phone.innerHTML = "Phone";
 				Email.innerHTML = "Email";
 				Delete.innerHTML = "DeleteButtons";
-				Edit.innerHTML = "EditButtons";
+				Edit.innerHTML = "UpdateButtons";
 				
-
 				while(i < data.length)
 				{
 					
@@ -188,25 +231,18 @@ function searchContact()
 					conId = data.substr(j, i - j);
 					i++;
 					j = i;
-
 					row.setAttribute("id", "Row" + r);
 					row.setAttribute("title", conId);
-
 					No = row.insertCell(0);
 					No.setAttribute("id", "No" + r);
-
 					Name = row.insertCell(1);
 					Name.setAttribute("id", "Name" + r);
-
 					Phone = row.insertCell(2);
 					Phone.setAttribute("id", "Phone" + r);
-
 					Email = row.insertCell(3);
 					Email.setAttribute("id", "Email" + r);
-
 					Delete = row.insertCell(4);
 					Delete.setAttribute("id", "Delete" + r);
-
 					Edit = row.insertCell(5);
 					Edit.setAttribute("id", "Edit" + r);
 					
@@ -219,8 +255,8 @@ function searchContact()
 					Delete.appendChild(btn);
 					
 					btn = document.createElement("BUTTON");
-					btn.innerHTML = "Edit";
-					btn.onclick = function() {};
+					btn.innerHTML = "Update";
+					btn.onclick = function() {goUpdate(this.title)};
 					Edit.appendChild(btn);
 					
 					No.innerHTML = r;
@@ -256,15 +292,14 @@ function searchContact()
 	}
 	catch(err)
 	{
-		document.getElementById("searchResult").innerHTML = err.message;
+		document.getElementById("Status").innerHTML = err.message;
 	}
-
 }
 
 function readContact()
 {	
 	//Status of search
-	document.getElementById("readStatus").innerHTML = "Looking for the Contact....";
+	document.getElementById("Status").innerHTML = "Looking for the Contact....";
 
 	//making a jsonpayload
 	var jsonPayload = '{"userId" : ' + userId + '}';
@@ -277,28 +312,28 @@ function readContact()
 	try
 	{
 		xhr.onreadystatechange = function() 
-		{	document.getElementById("readStatus").innerHTML = "Error Check" + this.readyState + " " + this.status;		
+		{			
 			if (this.readyState == 4 && this.status == 200) 
 			{				
 				//This is where the result of LoginAPI comes back to
 				var jsonObject = JSON.parse( xhr.responseText );
 				var data = jsonObject.results;
- 				var TotalContacts = jsonObject.TotalContacts;
-
+				var TotalContacts = jsonObject.TotalContacts;
+				
 				var Table = document.getElementById("myTable");
 				//start a new table
 				Table.remove();
-
-				document.getElementById("readStatus").innerHTML = "Contacts Found!!!";
+				
+				document.getElementById("Status").innerHTML = "Contacts Found!!!";
 				
 				//Table Making
 				var i = 0;
 				var r = 1;
 				var j = 0;
 				var newTable = document.createElement("TABLE");
-  				newTable.setAttribute("id", "myTable");
-  				document.body.appendChild(newTable);
-								
+				newTable.setAttribute("id", "myTable");
+				document.body.appendChild(newTable);
+				
 				//Header
 				var row = newTable.insertRow(0);
 				var No = row.insertCell(0);
@@ -315,9 +350,8 @@ function readContact()
 				Phone.innerHTML = "Phone";
 				Email.innerHTML = "Email";
 				Delete.innerHTML = "DeleteButtons";
-				Edit.innerHTML = "EditButtons";
+				Edit.innerHTML = "UpdateButtons";
 				
-
 				while(i < data.length)
 				{
 					
@@ -329,25 +363,18 @@ function readContact()
 					conId = data.substr(j, i - j);
 					i++;
 					j = i;
-
 					row.setAttribute("id", "Row" + r);
 					row.setAttribute("title", conId);
-
 					No = row.insertCell(0);
 					No.setAttribute("id", "No" + r);
-
 					Name = row.insertCell(1);
 					Name.setAttribute("id", "Name" + r);
-
 					Phone = row.insertCell(2);
 					Phone.setAttribute("id", "Phone" + r);
-
 					Email = row.insertCell(3);
 					Email.setAttribute("id", "Email" + r);
-
 					Delete = row.insertCell(4);
 					Delete.setAttribute("id", "Delete" + r);
-
 					Edit = row.insertCell(5);
 					Edit.setAttribute("id", "Edit" + r);
 					
@@ -361,8 +388,10 @@ function readContact()
 					Delete.appendChild(btn);
 					
 					btn = document.createElement("BUTTON");
-					btn.innerHTML = "Edit";
-					btn.onclick = function() {};
+					btn.innerHTML = "Update";
+					btn.id = r;
+					btn.setAttribute("title", conId);
+					btn.onclick = function() {goUpdate(this.title)};
 					Edit.appendChild(btn);
 					
 					No.innerHTML = r;
@@ -373,7 +402,6 @@ function readContact()
 					Name.innerHTML = data.substr(j, i - j);
 					i++;
 					j = i;
-
 					while(data.charAt(i) != ',')
 					{
 						i++;
@@ -381,7 +409,6 @@ function readContact()
 					Phone.innerHTML = data.substr(j, i - j);
 					i++;
 					j = i;
-
 					while(data.charAt(i) != ',')
 					{
 						i++;
@@ -398,10 +425,8 @@ function readContact()
 	}
 	catch(err)
 	{
-		document.getElementById("readResult").innerHTML = err.message;
+		document.getElementById("Status").innerHTML = err.message;
 	}
-
-
 }
 
 
@@ -437,7 +462,7 @@ function deleteContact(Id, no)
 		xhr.send(jsonPayload);
 	}catch(err)
 	{
-		document.getElementById("Name" + no).innerHTML = err.message;
+		document.getElementById("Status").innerHTML = err.message;
 	}
 
 }
@@ -451,19 +476,19 @@ function addContact()
 	var email = document.getElementById("addEmail").value;
 
 	//AddStatus
-	document.getElementById("addStatus").innerHTML = "Adding new Contact....";
+	document.getElementById("Status").innerHTML = "Adding new Contact....";
 	
 	//Error Cases
 	if(fName.localeCompare('') == 0 || lName.localeCompare('') == 0 || phoneNumber.localeCompare('') == 0 || email.localeCompare('') == 0)
 	{
-		document.getElementById("addStatus").innerHTML = "All the informating needs to be filled";
+		document.getElementById("Status").innerHTML = "All the informating needs to be filled";
 		return;
 	}
 
 	//making a jsonpayload
-	var jsonPayload = '{"FName" : "' + fName + '", "LName" : "' + lName + '", "Phone" : "' + phoneNumber + '", "Email" : "' + email + '"}';
+	var jsonPayload = '{"userId" : ' + userId + ', "FName" : "' + fName + '", "LName" : "' + lName + '", "Phone" : "' + phoneNumber + '", "Email" : "' + email + '"}';
 	
-	var url = urlBase + '/AddContact.' + extension;
+	var url = urlBase + '/CreateContact.' + extension;
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -471,49 +496,49 @@ function addContact()
 	try
 	{
 		xhr.onreadystatechange = function() 
-		{	//document.getElementById("addResult").innerHTML = "Error Check" + this.readyState + " " + this.status;		
+		{			
 			if (this.readyState == 4 && this.status == 200) 
 			{				
 				//This is where the result of LoginAPI comes back to
 				var jsonObject = JSON.parse( xhr.responseText );
 				
-				document.getElementById("addStatus").innerHTML = "New Contact Added!!!"				
+				document.getElementById("Status").innerHTML = "New Contact Added!!!" ;
+				window.location.href = ('contacts.html');
+				document.getElementById("Status").innerHTML = "New Contact Added!!!";				
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("addResult").innerHTML = err.message;
+		document.getElementById("Status").innerHTML = err.message;
 	}
 
 	
 }
 
-
-
 function registerUser()
 {
 	
 	//get register Information
-	var uName = document.getElementById("regUserName").value;
-	var fName = document.getElementById("regFirstName").value;
-	var lName = document.getElementById("regLastName").value;
-	var password = document.getElementById("regPassword").value;
-	var repassword = document.getElementById("regrePassword").value;
-	document.getElementById("regStatus").innerHTML = "Registering a New User...";
+	var uName = document.getElementById("registerUserName").value;
+	var fName = document.getElementById("registerFirstName").value;
+	var lName = document.getElementById("registerLastName").value;
+	var password = document.getElementById("registerPassword").value;
+	var repassword = document.getElementById("registerRetypePassword").value;
+	document.getElementById("Status").innerHTML = "Registering a New User...";
 
 	//Password Match Check
-	if(password.localeCompare(repassword) != 0)
+	if(password.localeCompare(repassword) !== 0)
 	{
-		document.getElementById("regStatus").innerHTML = "Password and re-Password Dosent match";
+		document.getElementById("Status").innerHTML = "Password and re-Password Dosent match";
 		return;
 	}
 	
 	//Error Cases
-	if(uName.localeCompare('') == 0 || fName.localeCompare('') == 0 || lName.localeCompare('') == 0 || password.localeCompare('') == 0 || repassword.localeCompare('') == 0)
+	if(uName.localeCompare('') === 0 || fName.localeCompare('') === 0 || lName.localeCompare('') === 0 || password.localeCompare('') === 0 || repassword.localeCompare('') === 0)
 	{
-		document.getElementById("regStatus").innerHTML = "All the informating needs to be filled";
+		document.getElementById("Status").innerHTML = "All the informating needs to be filled";
 		return;
 	}
 	
@@ -535,9 +560,9 @@ function registerUser()
 				var jsonObject = JSON.parse( xhr.responseText );
 				var error = jsonObject.error;
 				
-				if(error.localeCompare(""))
+				if(error.localeCompare("") === 0)
 				{
-					document.getElementById("regStatus").innerHTML = "New User Has been Registered";
+					document.getElementById("Status").innerHTML = "New User Has been Registered";
 				}
 			}
 		};
@@ -545,11 +570,112 @@ function registerUser()
 	}
 	catch(err)
 	{
-		document.getElementById("addResult").innerHTML = err.message;
+		document.getElementById("Status").innerHTML = err.message;
 	}
 }
 
-function update()
+function goAdd()
 {
+	window.location.href = ('add.html');
+}
+
+function goUpdate(Id)
+{
+	conName ="";
+	conPhone ="";
+	conEmail ="";
+	conId = parseInt(Id);
 	
+	var jsonPayload = '{"Id" : ' + Id + '}';
+	
+	var url = urlBase + '/FindContact.' + extension;
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{		
+			if (this.readyState == 4 && this.status == 200) 
+			{				
+				//This is where the result of API comes back to
+				var jsonObject = JSON.parse( xhr.responseText );
+				conName = jsonObject.Name;
+				conPhone = jsonObject.Phone;
+				conEmail = jsonObject.Email;
+				
+				
+				document.getElementById("Status").innerHTML = "Loading Update screen";
+				saveCookie();
+				window.location.href = ('update.html');
+
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("Status").innerHTML = err.message;
+	}
+}
+
+function doUpdate()
+{
+	var FirstName = document.getElementById("updateFirstName").value;
+	var LastName = document.getElementById("updateLastName").value;
+	var Name = FirstName + " " + LastName;
+	var Phone = document.getElementById("updatePhoneNumber").value;
+	var Email = document.getElementById("updateEmail").value;
+	
+	if(FirstName.localeCompare("") === 0 && LastName.localeCompare("") === 0 && Phone.localeCompare("") === 0 && Email.localeCompare("") === 0)
+	{
+		document.getElementById("Status").innerHTML = "All fields cant be empty";
+		return;
+	}
+	
+	if(FirstName.localeCompare("") === 0)
+	{
+		FirstName = document.getElementById("fn").title;
+	}
+
+	if(LastName.localeCompare("") === 0)
+	{
+		LastName = document.getElementById("ln").title;
+	}
+
+	if(Phone.localeCompare("") === 0)
+	{
+		Phone = document.getElementById("pn").title;
+	}
+
+	if(Email.localeCompare("") === 0)
+	{
+		Email = document.getElementById("e").title;
+	}
+
+	var jsonPayload = '{"id" : '+ conId +', "FN" : "' + FirstName + '", "LN" : "' + LastName + '", "P" : "' + Phone + '", "E" : "' + Email + '"}';
+	
+	var url = urlBase + '/EditContact.' + extension;
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{		
+			if (this.readyState == 4 && this.status == 200) 
+			{				
+				document.getElementById("Status").innerHTML = "Updateing contact info...";
+				window.location.href = ('contacts.html');
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("Status").innerHTML = err.message;
+	}
+
 }
