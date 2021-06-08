@@ -9,31 +9,34 @@ body {
   font-family: 'Lato';
 }
 
+
 .relative {
     padding: 10px;
     position: relative;
     background-color: #fff;
-    margin: 10px;
+    margin: 100px;
 }
         
 .navitem {
    display: inline-block;
-   width: 70px;
-   height: 30px;
+   background-color: var(--primary-color); 
+   border: 2px solid black;
+   color: white;
+   padding: 10px 20px;
    text-align: center;
-   border: gray;
-   background-color: #E8562A;
-   color: #fff;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
    cursor: pointer;
-   font-weight: bold;
+
 }
 
 .login-section {
   background-color: white;
-  height: -5em;
-  width: 3em;
+  height: 50px;
+  width: 50px;
   padding: 10em 6em;
-  margin-top: -10em;
+  margin-top: 0em;
   margin-left: 100em;
   border-radius: 100em 1em;
   -webkit-animation: fadeIn 1s;
@@ -60,13 +63,18 @@ body {
 h1 {
    font-size: 1em;
    text-align: left;
-   margin-top:-30px;
-   margin-right: 0px;
+   margin-right: 100em;
 }
 h2 {
   font-size: 3em;
   text-align: center;
   margin-top: 1em;
+}
+h3 {
+  font-size: 3em;
+  text-align: center;
+  margin-top: 1em;
+  text-color: white;
 }
 
 table {
@@ -74,11 +82,11 @@ table {
   background-color: white;
   width: 50%;
   border: 3px solid black;
-  margin-left: 30em;
-  margin-top: -20em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0em;
 
 }
-
 label {
   text-align: center;
   display: block;
@@ -96,22 +104,8 @@ label {
    cursor: pointer;
    margin-left: 3em;
 }
-.logoutButton{
-   background-color: red; 
-   border: 3px solid black;
-   color: white;
-   padding: 15px 35px;
-   text-align: center;
-   text-decoration: none;
-   display: inline-block;
-   font-size: 16px;
-   cursor: pointer;
-   margin-left: 110em;
-   margin-top: -31em;
-}
-
-.button:hover {
-   background-color: #A30214;
+.navitem:hover {
+   background-color: black;
 }
 .logoutButton:hover {
    background-color: #A30214;
@@ -121,6 +115,10 @@ label {
 p {
   text-align: center;
   font-size: 1em;
+}
+p1 {
+  text-align: left;
+  font-size: 2.5em;
 }
 
 a {
