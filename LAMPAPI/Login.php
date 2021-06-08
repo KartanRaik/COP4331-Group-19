@@ -1,14 +1,11 @@
 <?php
-    // getRequestInfo function - takes input (possibly from client side) and read into string and convert to php var
     $inData = getRequestInfo();
 
-    // Info for establishing connection
     $servername = "localhost";
     $username = "admin1";
     $password = "admin12345"; 
     $dbname = "group_19A";
 
-    // Login credentials
     $id = 0;
     $firstName = "";
     $lastName = "";
@@ -17,6 +14,7 @@
     // class mysqli - Represents a connection between PHP and MySQL database
     // mysqli($servername,$username,$password,$dbname)    
     $conn = new mysqli($servername,$username,$password,$dbname);
+
     // mysqli->connect_error - Returns last error message and if no error returns null
     if ($conn->connect_error)
     {
@@ -27,14 +25,16 @@
     {
         //msqli->prepare - Prepares an SQL statement for execution and returns the statement object
         $stmt = $conn->prepare("SELECT ID, FirstName, LastName FROM Users WHERE Login=? AND Password=?");
-        //msqli_stmt->bind_parem binds variables to a prepared statement as parameters
-        $stmt->bind_param("ss",$inData["login"],$inData["password"]);
-        //msqli_stmt->execute executes a prepared Query
-        $stmt->execute();
-        //msqli_stmt->get_result gets a result set from a prepared statement
-        $result = $stmt->get_result();
         
-        // fetch_assoc - fetches a result row as an associative array
+	//msqli_stmt->bind_parem binds variables to a prepared statement as parameters
+        $stmt->bind_param("ss",$inData["login"],$inData["password"]);
+        
+	//msqli_stmt->execute executes a prepared Query
+        $stmt->execute();
+        
+	//msqli_stmt->get_result gets a result set from a prepared statement
+        $result = $stmt->get_result();
+
         if($row = $result->fetch_assoc() )
         {
             returnWithInfo($row['FirstName'], $row['LastName'], $row['ID']);

@@ -13,7 +13,7 @@
     $Name = "";
     $Phone = "";
     $Email = "";
-
+    $Id = 0;
     $myarray = ""; 
 
     // depicts if there are results found
@@ -29,7 +29,7 @@
     {
         // Prepare a SQL statement of selecting first and last name from contacts
         $searchInput = "%" . $inData["search"] . "%";
-        $stmt = $conn->prepare("SELECT FirstName, LastName, PhoneNumber, Email FROM Contacts WHERE FirstName LIKE ? AND UserID=? OR LastName LIKE ? AND UserID=?");
+        $stmt = $conn->prepare("SELECT ID, FirstName, LastName, PhoneNumber, Email FROM Contacts WHERE FirstName LIKE ? AND UserID=? OR LastName LIKE ? AND UserID=?");
         $stmt->bind_param("sisi",$searchInput ,$inData["userId"] ,$searchInput ,$inData["userId"]);
         $stmt->execute();
 
@@ -40,10 +40,11 @@
             $searchCount++;
 
 	    $Name = $row['FirstName'] . " " . $row['LastName'];
+	    $Id = $row['ID'];
 	    $Phone = $row['PhoneNumber'];
 	    $Email = $row['Email'];
 
-	    $myarray .= $Name . "," . $Phone . "," . $Email . "," ;
+	    $myarray .= $Id . "," . $Name . "," . $Phone . "," . $Email . "," ;
 	    
 	}
 

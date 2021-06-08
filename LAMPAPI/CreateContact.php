@@ -8,10 +8,10 @@
     $dbname = "group_19A";
 
     // Data require to insert into database
-    $firstName = $inData["firstName"];
-    $lastName = $inData["lastName"];
-    $phoneNumber = $inData["phoneNumber"];
-    $email = $inData["email"];
+    $firstName = $inData["FName"];
+    $lastName = $inData["LName"];
+    $phoneNumber = $inData["Phone"];
+    $email = $inData["Email"];
     $userId = $inData["userId"];
 
 
@@ -25,7 +25,7 @@
     {
         // Insert into Contacts
         $stmt = $conn->prepare("INSERT into Contacts (FirstName,LastName,PhoneNumber,Email,UserID) VALUES(?,?,?,?,?)");
-        $stmt->bind_param("sssss",$firstName,$lastName,$phoneNumber,$email,$userId);
+        $stmt->bind_param("ssssi",$firstName,$lastName,$phoneNumber,$email,$userId);
         $stmt->execute();
         $stmt->close();
         $conn->close();

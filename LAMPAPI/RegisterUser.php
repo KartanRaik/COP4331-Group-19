@@ -8,10 +8,10 @@
     $dbname = "group_19A";
 
     // Data require to insert into database
-    $firstName = $inData["firstName"];
-    $lastName = $inData["lastName"];
-    $login = $inData["login"];
-    $Password = $inData["password"];
+    $firstName = $inData["FName"];
+    $lastName = $inData["LName"];
+    $login = $inData["UserName"];
+    $Password = $inData["Password"];
 
 
     $conn = new mysqli($servername,$username,$password,$dbname);

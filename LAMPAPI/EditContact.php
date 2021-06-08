@@ -11,10 +11,10 @@
     $id = $inData["id"];
 
     // new contact info
-    $firstName = $inData["firstName"];
-    $lastName = $inData["lastName"];
-    $phoneNumber = $inData["phoneNumber"];
-    $email = $inData["email"];
+    $firstName = $inData["FN"];
+    $lastName = $inData["LN"];
+    $phoneNumber = $inData["P"];
+    $email = $inData["E"];
 
     $conn = new mysqli($servername,$username,$password,$dbname);
     if ($conn->connect_error)

@@ -11,9 +11,9 @@
     // Variables required for search
     // searchResult - concatenate existing/or nonexisent result and output to user
     $Name = "";
+    $Num = "";
     $Phone = "";
-    $Email = "";
-    $Id = 0;
+    $Email = ""; 
     $myarray = ""; 
 
     // depicts if there are results found
@@ -28,31 +28,22 @@
     else
     {
         // Prepare a SQL statement of selecting first and last name from contacts
-        $stmt = $conn->prepare("SELECT ID, FirstName, LastName, PhoneNumber, Email FROM Contacts WHERE UserID=?");
-        $stmt->bind_param("i",$inData["userId"]);
+        $stmt = $conn->prepare("SELECT FirstName, LastName, PhoneNumber, Email FROM Contacts WHERE ID=?");
+        $stmt->bind_param("i",$inData["Id"]);
         $stmt->execute();
 
         $result = $stmt->get_result(); 
 
-        while ($row = $result->fetch_assoc())
+        if ($row = $result->fetch_assoc())
         {
-            $searchCount++;
-
             $Name = $row['FirstName'] . " " . $row['LastName'];
-	    $Id = $row['ID'];
-	    $Phone = $row['PhoneNumber'];
-	    $Email = $row['Email'];
-
-	    $myarray .= $Id . "," . $Name . "," . $Phone . "," . $Email . "," ;
-	}
-        if ($searchCount == 0)
-        {
-            returnWithError("You have no contacts. Please add.");
-        }
-        else
-        {
-            returnWithInfo($myarray, $searchCount);
-        }
+            $Phone = $row['PhoneNumber'];
+            $Email = $row['Email'];
+	    }else
+		{
+			returnWithError("You have no contacts. Please add.");
+		}
+		returnWithInfo($Name, $Phone, $Email);
 
         $stmt->close();
         $conn->close();
@@ -75,9 +66,9 @@
         sendResultInfoAsJson( $retValue );
     }
 	
-    function returnWithInfo( $array, $number )
+    function returnWithInfo( $N, $P, $E)
     {
-        $retValue = '{"results":"' . $array . '", "TotalContacts":' . $number . ', "error":""}';
+        $retValue = '{"Name":"' . $N . '", "Phone":"' . $P . '", "Email":"'. $E .'"}';
         sendResultInfoAsJson( $retValue );
     }
 
