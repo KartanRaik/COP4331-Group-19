@@ -143,7 +143,7 @@ function readConCookie()
 	}
 	else
 	{
-		document.getElementById("contactInfo").innerHTML = "Current Info: " + conId + conName + " " + conPhone + " " + conEmail;
+		document.getElementById("contactInfo").innerHTML = "Current Info: " + conName + " " + conPhone + " " + conEmail;
 		
 		document.getElementById("fn").title = n[0];
 		document.getElementById("ln").title = n[1];
@@ -250,6 +250,7 @@ function searchContact()
 					btn = document.createElement("BUTTON");
 					btn.innerHTML = "Delete";
 					btn.id = r;
+					btn.setAttribute("title", conId);
 					var name = "Row" + r;
 					var R = toString(r);
 					btn.onclick = function() {deleteContact(this.title, this.id)};
@@ -257,9 +258,11 @@ function searchContact()
 					
 					btn = document.createElement("BUTTON");
 					btn.innerHTML = "Update";
+					btn.id = r;
+					btn.setAttribute("title", conId);
 					btn.onclick = function() {goUpdate(this.title)};
 					Edit.appendChild(btn);
-					
+										
 					No.innerHTML = r;
 					while(data.charAt(i) != ',')
 					{
