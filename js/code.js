@@ -20,11 +20,12 @@ function doLogin()
 
 	//Puts the loginPassword in password
 	var password = document.getElementById("loginPassword").value;
+	var hash = md5( password );
 	
 	//This is for a messege which tell the user that login was successful or not
 	document.getElementById("loginResult").innerHTML = "Logging In...";
 
-	var jsonPayload = '{"login" : "' + login + '", "password" : "' + password + '"}';
+	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
 	var url = urlBase + '/Login.' + extension;
 	
 	
@@ -542,8 +543,10 @@ function registerUser()
 		return;
 	}
 	
+	var hash = md5( password );
+	
 	//making a jsonpayload
-	var jsonPayload = '{"FName" : "' + fName + '", "LName" : "' + lName + '", "Password" : "' + password + '", "UserName" : "' + uName + '"}';
+	var jsonPayload = '{"FName" : "' + fName + '", "LName" : "' + lName + '", "Password" : "' + hash + '", "UserName" : "' + uName + '"}';
 	
 	var url = urlBase + '/RegisterUser.' + extension;
 	
